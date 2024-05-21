@@ -19,7 +19,12 @@ const NewsSearch = () => {
         setApiResponse(JSON.parse(cachedData));
       } else {
         const response = await axios.get(
-          `https://newsapi.org/v2/everything?q=${query}&apiKey=8aba765311894dde983f4a8c080b838f`
+          `https://newsapi.org/v2/everything?q=${query}&apiKey=8aba765311894dde983f4a8c080b838f`,{
+            headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+            },
+          }
         );
         const articles = response.data.articles;
         setApiResponse(articles);

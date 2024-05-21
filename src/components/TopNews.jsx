@@ -106,7 +106,12 @@ const TopNews = () => {
       if (cachedData) {
         setApiResponse(JSON.parse(cachedData));
       } else {
-        const response = await axios.get(url);
+        const response = await axios.get(url, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+          },
+        });
         const articles = response.data.sources;
         setApiResponse(articles);
         localStorage.setItem(url, JSON.stringify(articles));
