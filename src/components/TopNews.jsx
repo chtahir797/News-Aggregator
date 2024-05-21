@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom';
+
 import axios from "axios";
 import "./TopNews.css";
 import "./NewsSearch.css";
@@ -106,12 +108,7 @@ const TopNews = () => {
       if (cachedData) {
         setApiResponse(JSON.parse(cachedData));
       } else {
-        const response = await axios.get(url, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-          },
-        });
+        const response = await axios.get(url);
         const articles = response.data.sources;
         setApiResponse(articles);
         localStorage.setItem(url, JSON.stringify(articles));
@@ -119,7 +116,6 @@ const TopNews = () => {
     } catch (error) {
       console.log("Getting some error: ", error);
     }
-
     setLoading(false);
   };
 
@@ -187,14 +183,14 @@ const TopNews = () => {
 
                 <div className="timedetail">
                   <div className="detail-page">
-                    <a
-                      key={index}
-                      href={article.url}
-                      target="_blank"
-                      className="detail"
-                    >
-                      More Details
-                    </a>
+                  <Link
+                    key={index}
+                    to={article.url}
+                    className="detail"
+                    target="_blank"
+                  >
+                    More Details
+                  </Link>
                   </div>
                   <div className="catagory">
                     <p className="cat">{article.category.toUpperCase()}</p>

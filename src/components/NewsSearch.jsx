@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import "./NewsSearch.css";
+import { Link } from 'react-router-dom';
+
 
 const NewsSearch = () => {
   const [query, setQuery] = useState("");
@@ -19,12 +21,7 @@ const NewsSearch = () => {
         setApiResponse(JSON.parse(cachedData));
       } else {
         const response = await axios.get(
-          `https://newsapi.org/v2/everything?q=${query}&apiKey=8aba765311894dde983f4a8c080b838f`,{
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-          }
+          `https://newsapi.org/v2/everything?q=${query}&apiKey=8aba765311894dde983f4a8c080b838f`
         );
         const articles = response.data.articles;
         setApiResponse(articles);
@@ -32,10 +29,8 @@ const NewsSearch = () => {
       }
     } catch (error) {
       console.log("Error fetching data:", error);
-      // Provide user feedback for errors
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   return (
@@ -69,15 +64,14 @@ const NewsSearch = () => {
               )}
               <div className="time-detail">
                 <div className="detail-page">
-                  <a
+                <Link
                     key={index}
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    to={article.url}
                     className="detail"
+                    target="_blank"
                   >
                     More Details
-                  </a>
+                  </Link>
                 </div>
                 <p className="article-date">
                   {new Date(article.publishedAt).toLocaleString()}

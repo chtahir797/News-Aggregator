@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import "./CategoryNews.css";
+import { Link } from 'react-router-dom';
+
 
 const CategoryNews = () => {
   const [select, setSelect] = useState("business");
@@ -29,12 +31,7 @@ const CategoryNews = () => {
         setApiResponse(JSON.parse(cachedData));
       } else {
         const response = await axios.get(
-          `https://newsapi.org/v2/top-headlines?category=${select}&apiKey=8aba765311894dde983f4a8c080b838f`,{
-            headers: {
-              'Content-Type': 'application/json',
-              'Accept': 'application/json',
-            },
-          }
+          `https://newsapi.org/v2/top-headlines?category=${select}&apiKey=8aba765311894dde983f4a8c080b838f`
         );
         const articles = response.data.articles;
         setApiResponse(articles);
@@ -42,9 +39,8 @@ const CategoryNews = () => {
       }
     } catch (error) {
       console.log("Error fetching data:", error);
-    } finally {
-      setLoading(false);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -85,15 +81,16 @@ const CategoryNews = () => {
               )}
               <div className="time-detail">
                 <div className="detail-page">
-                  <a
-                    key={index}
-                    href={article.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="detail"
-                  >
-                    More Details
-                  </a>
+                <Link
+  key={index}
+  to={article.url}
+  className="detail"
+  target="_blank"
+
+>
+  More Details
+</Link>
+
                 </div>
                 <p className="article-date">
                   {new Date(article.publishedAt).toLocaleString()}
